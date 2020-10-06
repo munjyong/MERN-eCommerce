@@ -1,0 +1,23 @@
+{
+  "name": "mern-ecommerce",
+  "version": "1.0.0",
+  "description": "MERN eCommerce App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/munjyong/MERN-eCommerce.git"
+  },
+  "author": "Edmund",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/munjyong/MERN-eCommerce/issues"
+  },
+  "homepage": "https://github.com/munjyong/MERN-eCommerce#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
