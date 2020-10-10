@@ -3,6 +3,8 @@ import React, { useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 
 import Product from "../components/Product";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -14,7 +16,7 @@ const HomeScreen = () => {
 
   // useSelector() extracts data from the Redux store state
   const productList = useSelector((state) => state.productList);
-  // Destructure productList to pass variables into the component
+  // Destructure states from reducers
   const { loading, products, error } = productList;
 
   useEffect(() => {
@@ -27,9 +29,9 @@ const HomeScreen = () => {
       <h1>Latest Products</h1>
       {/* Loading spinner */}
       {loading ? (
-        <h2>Loading...</h2>
+        <Loader />
       ) : error ? (
-        <h3>{error}</h3>
+        <Message variant="danger">{error}</Message>
       ) : (
         <Row>
           {products.map((product) => (
