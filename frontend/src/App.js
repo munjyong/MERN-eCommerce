@@ -20,7 +20,7 @@ const App = () => {
           <Route path="/" component={HomeScreen} exact />
           {/* :id acts as a placeholder, anything after /product/ will be considered as the product id */}
           <Route path="/product/:id" component={ProductScreen} />
-          {/* ? acts as optional tag as the user may just visit cart screen without any items in cart */}
+          {/* ? acts as optional tag as the user may visit the cart screen without any items in cart */}
           <Route path="/cart/:id?" component={CartScreen} exact />
         </Container>
       </main>

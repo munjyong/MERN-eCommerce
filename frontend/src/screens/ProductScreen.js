@@ -20,7 +20,7 @@ import { listProductDetails } from "../actions/productActions";
 
 const ProductScreen = ({ history, match }) => {
   // Quantity state
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
   // Dispatch actions
   const dispatch = useDispatch();
@@ -36,6 +36,7 @@ const ProductScreen = ({ history, match }) => {
   }, [dispatch, match]);
 
   const addToCartHandler = () => {
+    // Pushes a new entry onto the history stack
     history.push(`/cart/${match.params.id}?quantity=${quantity}`);
   };
 
