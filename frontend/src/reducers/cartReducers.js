@@ -9,7 +9,7 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
       const item = action.payload;
       // Search for matching product id's between the payload and state cartItems
       const existingItem = state.cartItems.find(
-        (x) => x.product === item.product
+        (x) => x.productId === item.productId
       );
       // If item exists in cart
       if (existingItem) {
@@ -18,7 +18,7 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
         return {
           ...state,
           cartItems: state.cartItems.map((x) =>
-            x.product === existingItem.product ? item : x
+            x.productId === existingItem.productId ? item : x
           ),
         };
       } else {
