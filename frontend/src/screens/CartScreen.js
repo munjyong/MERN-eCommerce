@@ -57,10 +57,12 @@ const CartScreen = ({ match, location, history }) => {
         {cartItems.length === 0 ? (
           <Message>Your cart is empty.</Message>
         ) : (
+          // List all items in cart
           <ListGroup variant="flush">
             {cartItems.map((item) => (
               <ListGroup.Item key={item.productId}>
                 <Row>
+                  {/* Product Image */}
                   <Col md={2}>
                     <Image
                       src={item.image}
@@ -69,10 +71,13 @@ const CartScreen = ({ match, location, history }) => {
                       rounded
                     ></Image>
                   </Col>
+                  {/* Product Name */}
                   <Col md={3}>
                     <Link to={`/product/${item.productId}`}>{item.name}</Link>
                   </Col>
+                  {/* Price */}
                   <Col md={2}>{item.price}</Col>
+                  {/* Change quantity */}
                   <Col md={2}>
                     <Form.Control
                       as="select"
@@ -83,7 +88,7 @@ const CartScreen = ({ match, location, history }) => {
                         )
                       }
                     >
-                      {/* Maps through the array created from the stock count */}
+                      {/* Maps through the item stock count */}
                       {/* Displays an option for each quantity until the maximum stock count */}
                       {[...Array(item.countInStock).keys()].map((x) => (
                         <option key={x + 1} value={x + 1}>
@@ -92,6 +97,7 @@ const CartScreen = ({ match, location, history }) => {
                       ))}
                     </Form.Control>
                   </Col>
+                  {/* Delete item from cart */}
                   <Col md={2}>
                     <Button
                       type="button"
@@ -107,12 +113,13 @@ const CartScreen = ({ match, location, history }) => {
           </ListGroup>
         )}
       </Col>
+      {/* Subtotal and checkout */}
       <Col md={4}>
         <Card>
           <ListGroup variant="flush">
             <ListGroup.Item>
               <h2>
-                Subtotal (
+                Subtotal ({/* Add total quantity of items in cart */}
                 {cartItems.reduce(
                   (accumulator, item) => accumulator + item.quantity,
                   0
@@ -120,13 +127,14 @@ const CartScreen = ({ match, location, history }) => {
                 ) items
               </h2>
               <p>
-                $
+                {/* Adds the total quantity by the price of each item */}$
                 {cartItems
                   .reduce(
                     (accumulator, item) =>
                       accumulator + item.quantity * item.price,
                     0
                   )
+                  // Forces 2 decimal places for the total price
                   .toFixed(2)}
               </p>
             </ListGroup.Item>
