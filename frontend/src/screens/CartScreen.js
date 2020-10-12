@@ -15,7 +15,7 @@ import {
 } from "react-bootstrap";
 
 import Message from "../components/Message";
-import { addToCart } from "../actions/cartActions";
+import { addToCart, removeFromCart } from "../actions/cartActions";
 
 // location - Used to get the query string (?quantity=1) of the quantity amount
 // history - Used to redirect the user
@@ -41,7 +41,7 @@ const CartScreen = ({ match, location, history }) => {
   }, [dispatch, urlProductId, quantity]);
 
   const removeFromCartHandler = (id) => {
-    console.log("Remove");
+    dispatch(removeFromCart(id));
   };
 
   // If user is not logged in then proceed to /login
@@ -76,7 +76,7 @@ const CartScreen = ({ match, location, history }) => {
                     <Link to={`/product/${item.productId}`}>{item.name}</Link>
                   </Col>
                   {/* Price */}
-                  <Col md={2}>{item.price}</Col>
+                  <Col md={2}>${item.price}</Col>
                   {/* Change quantity */}
                   <Col md={2}>
                     <Form.Control
