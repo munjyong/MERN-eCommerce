@@ -4,7 +4,7 @@ import User from "../models/userModel.js";
 
 import generateToken from "../utils/generateToken.js";
 
-// @desc    Auth user & get token
+// @desc    Authenticate user & get token
 // @route   POST /api/users/login
 // @access  PUBLIC
 const authUser = asyncHandler(async (req, res) => {
@@ -31,6 +31,40 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Register new user
+// @route   POST /api/users
+// @access  PUBLIC
+const registerUser = asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body;
+
+  // Find user by email
+  const userExists = await User.findOne({ email });
+
+  if (userExists) {
+    res.status(400);
+    throw new Error("User already exists.");
+  }
+
+  // Create user
+  const user = await User.create({ name, email, password });
+
+  if (user) {
+    res
+      // Successfully created
+      .status(201)
+      .json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        token: generateToken(user._id),
+      });
+  } else {
+    res.status(400);
+    throw new Error("Invalid user data.");
+  }
+});
+
 // @desc    Get user profile
 // @route   GET /api/users/profile
 // @access  PRIVATE
@@ -51,4 +85,4 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, getUserProfile };
+export { authUser, getUserProfile, registerUser };

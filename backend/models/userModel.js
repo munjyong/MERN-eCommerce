@@ -27,6 +27,17 @@ const userSchema = mongoose.Schema(
   }
 );
 
+// Runs before the password is saved to ensure it is hashed
+userSchema.pre("save", async function (next) {
+  // Ensures the password hashing is only run when the user is creating their account and not updating their password
+  if (!this.isModified("password")) {
+    next();
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
 // Created method to compared the entered password from user to the hashed password in DB
 // bcrypt is used to compare the hashed and unhashed password
 userSchema.methods.matchPassword = async function (enteredPassword) {
