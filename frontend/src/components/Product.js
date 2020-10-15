@@ -34,15 +34,4 @@ const Product = ({ product }) => {
   );
 };
 
-Rating.defaultProps = {
-  color: "#78C2AD",
-};
-
-// Type checking
-Rating.propTypes = {
-  value: PropTypes.number.isRequired,
-  text: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
-};
-
 export default Product;
