@@ -90,7 +90,6 @@ const ProfileScreen = ({ location, history }) => {
               type="password"
               placeholder="Enter password"
               value={password}
-              z
               onChange={(e) => setPassword(e.target.value)}
             ></Form.Control>
           </Form.Group>
