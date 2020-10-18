@@ -26,7 +26,7 @@ const orderSchema = mongoose.Schema(
           type: Number,
           required: true,
         },
-        product: {
+        productId: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
           ref: "Product",
@@ -42,7 +42,7 @@ const orderSchema = mongoose.Schema(
         type: String,
         required: true,
       },
-      postCode: {
+      postalCode: {
         type: String,
         required: true,
       },

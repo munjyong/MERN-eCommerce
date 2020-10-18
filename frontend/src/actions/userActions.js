@@ -15,7 +15,6 @@ import {
 } from "../constants/userConstants";
 
 import axios from "axios";
-import { get } from "mongoose";
 
 // Login request to get token
 export const login = (email, password) => async (dispatch) => {
