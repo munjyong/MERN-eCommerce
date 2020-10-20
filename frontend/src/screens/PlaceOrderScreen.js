@@ -11,10 +11,10 @@ import CheckoutSteps from "../components/CheckoutSteps";
 import { createOrder } from "../actions/orderActions";
 
 const PlaceOrderScreen = ({ history }) => {
+  const dispatch = useDispatch();
+
   // Get items from cart
   const cart = useSelector((state) => state.cart);
-
-  const dispatch = useDispatch();
 
   // Ensures all numbers are to 2 decimal places
   const addDecimals = (num) => {
@@ -24,7 +24,7 @@ const PlaceOrderScreen = ({ history }) => {
   // Calc prices
   // Calc total items price
   cart.itemsPrice = addDecimals(
-    cart.cartItems.reduce((acc, item) => (acc + item.price) * item.quantity, 0)
+    cart.cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
   );
   // Calc shipping
   cart.shippingPrice = addDecimals(cart.itemsPrice < 100 ? 10 : 0);
