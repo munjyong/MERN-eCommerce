@@ -24,12 +24,17 @@ app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
+// Products
 app.use("/api/products", productRoutes);
-
 // User auth
 app.use("/api/users", userRoutes);
-
+// Orders
 app.use("/api/orders", orderRoutes);
+
+// PayPal
+app.get("/api/config/paypal", (req, res) =>
+  res.send(process.env.PAYPAL_CLIENT_ID)
+);
 
 // Invalid route
 app.use(notFound);
