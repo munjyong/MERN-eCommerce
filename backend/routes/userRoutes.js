@@ -6,13 +6,18 @@ import {
   getUserProfile,
   registerUser,
   updateUserProfile,
+  getUsers,
 } from "../controllers/userController.js";
 
-import { protect } from "../middleware/authMiddleware.js";
+import { protect, admin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/").post(registerUser);
+router
+  .route("/")
+  .post(registerUser)
+  // Ensures only admins can get all users w/ admin middleware
+  .get(protect, admin, getUsers);
 
 router.post("/login", authUser);
 
