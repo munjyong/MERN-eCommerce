@@ -135,10 +135,12 @@ const ProfileScreen = ({ location, history }) => {
               {orders.map((order) => (
                 <tr key={order._id}>
                   <td>{order._id}</td>
+                  {/* Display the date substring in YYYY/MM/DD */}
                   <td>{order.createdAt.substring(0, 10)}</td>
                   <td>{order.totalPrice}</td>
                   <td>
                     {order.isPaid ? (
+                      // Display the date substring in YYYY/MM/DD
                       order.paidAt.substring(0, 10)
                     ) : (
                       <i className="fas fa-times" style={{ color: "red" }}></i>
@@ -146,6 +148,7 @@ const ProfileScreen = ({ location, history }) => {
                   </td>
                   <td>
                     {order.isDelivered ? (
+                      // Display the date substring in YYYY/MM/DD
                       order.isDelivered.substring(0, 10)
                     ) : (
                       <i className="fas fa-times" style={{ color: "red" }}></i>
