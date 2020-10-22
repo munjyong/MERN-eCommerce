@@ -13,6 +13,9 @@ import {
   USER_UPDATE_PROFILE_FAIL,
   USER_LOGOUT,
   USER_DETAILS_RESET,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
+  USER_LIST_FAIL,
 } from "../constants/userConstants";
 import { ORDER_LIST_MY_RESET } from "../constants/orderConstants";
 
@@ -180,4 +183,41 @@ export const logout = () => (dispatch) => {
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: ORDER_LIST_MY_RESET });
+};
+
+// List all users
+export const listUsers = (user) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_LIST_REQUEST });
+
+    // Get user JSON data from state
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    // Declare content type so request can be parsed as JSON
+    const config = {
+      headers: {
+        // Current users token
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    // PUT request to update user profile
+    const { data } = await axios.get("/api/users", config);
+
+    // If successful return the payload with user details
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
 };
