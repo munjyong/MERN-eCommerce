@@ -13,6 +13,8 @@ import FormContainer from "../components/FormContainer";
 import { listProductDetails, updateProduct } from "../actions/productActions";
 import { PRODUCT_UPDATE_RESET } from "../constants/productContants";
 
+import axios from "axios";
+
 const ProductEditScreen = ({ match, history }) => {
   // Get product id
   const productId = match.params.id;
@@ -24,6 +26,7 @@ const ProductEditScreen = ({ match, history }) => {
   const [category, setCategory] = useState("");
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -75,6 +78,31 @@ const ProductEditScreen = ({ match, history }) => {
     );
   };
 
+  const uploadFileHandler = async (e) => {
+    // Return the 1st element in the files array since we are only allowing the user to upload 1 image
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    setUploading(true);
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      const { data } = await axios.post("/api/upload", formData, config);
+
+      // Sets the image to the file path
+      setImage(data);
+      setUploading(false);
+    } catch (error) {
+      alert("Upload images only");
+      setUploading(false);
+    }
+  };
+
   return (
     <>
       <Link to="/admin/productlist" className="btn btn-light my-3">
@@ -121,6 +149,14 @@ const ProductEditScreen = ({ match, history }) => {
                 required
                 onChange={(e) => setImage(e.target.value)}
               ></Form.Control>
+              <Form.File
+                id="image-file"
+                label="Choose image"
+                custom
+                onChange={uploadFileHandler}
+              ></Form.File>
+              {/* Display loader whilst file is uploading */}
+              {uploading && <Loader />}
             </Form.Group>
             <Form.Group controlId="brand">
               <Form.Label>Brand</Form.Label>
