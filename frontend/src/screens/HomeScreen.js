@@ -10,7 +10,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { listProducts } from "../actions/productActions";
 
-const HomeScreen = () => {
+const HomeScreen = ({ match }) => {
+  const keyword = match.params.keyword;
+
   // Dispatch actions
   const dispatch = useDispatch();
 
@@ -21,8 +23,8 @@ const HomeScreen = () => {
 
   useEffect(() => {
     // Fire action to fetch products
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <>

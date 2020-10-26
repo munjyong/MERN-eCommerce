@@ -6,7 +6,20 @@ import Product from "../models/productModel.js";
 // @route   GET /api/products
 // @access  PUBLIC
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({});
+  // Get keyword from query string in URL
+  const keyword = req.query.keyword
+    ? {
+        // Set name
+        name: {
+          // Allows the user to find the product even if they don't type the name exactly
+          $regex: req.query.keyword,
+          // Case insensitive
+          $options: "i",
+        },
+      }
+    : {};
+
+  const products = await Product.find({ ...keyword });
 
   res.json(products);
 });

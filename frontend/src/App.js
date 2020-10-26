@@ -45,6 +45,7 @@ const App = () => {
           <Route path="/product/:id" component={ProductScreen} />
           {/* ? acts as optional tag as the user may visit the cart screen without any items in cart */}
           <Route path="/cart/:id?" component={CartScreen} exact />
+          <Route path="/search/:keyword" component={HomeScreen} />
           <Route path="/" component={HomeScreen} exact />
         </Container>
       </main>
