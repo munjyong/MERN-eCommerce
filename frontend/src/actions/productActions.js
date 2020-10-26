@@ -21,13 +21,17 @@ import {
 
 import axios from "axios";
 
-export const listProducts = (keyword = "") => async (dispatch) => {
+export const listProducts = (keyword = "", pageNumber = "") => async (
+  dispatch
+) => {
   try {
     // Request to fetch products
     dispatch({ type: PRODUCT_LIST_REQUEST });
 
     // Fetch data from API
-    const { data } = await axios.get(`/api/products?keyword=${keyword}`);
+    const { data } = await axios.get(
+      `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
+    );
 
     // If successful assign the product data to the payload
     dispatch({

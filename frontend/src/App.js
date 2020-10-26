@@ -31,7 +31,16 @@ const App = () => {
         <Container>
           <Route path="/admin/orderlist" component={OrderListScreen} />
           <Route path="/admin/product/:id/edit" component={ProductEditScreen} />
-          <Route path="/admin/productlist" component={ProductListScreen} />
+          <Route
+            path="/admin/productlist/:pageNumber"
+            component={ProductListScreen}
+            exact
+          />
+          <Route
+            path="/admin/productlist"
+            component={ProductListScreen}
+            exact
+          />
           <Route path="/admin/user/:id/edit" component={UserEditScreen} />
           <Route path="/admin/userlist" component={UserListScreen} />
           <Route path="/order/:id" component={OrderScreen} />
@@ -45,7 +54,12 @@ const App = () => {
           <Route path="/product/:id" component={ProductScreen} />
           {/* ? acts as optional tag as the user may visit the cart screen without any items in cart */}
           <Route path="/cart/:id?" component={CartScreen} exact />
-          <Route path="/search/:keyword" component={HomeScreen} />
+          <Route
+            path="/search/:keyword/page/:pageNumber"
+            component={HomeScreen}
+          />
+          <Route path="/search/:keyword" component={HomeScreen} exact />
+          <Route path="/page/:pageNumber" component={HomeScreen} exact />
           <Route path="/" component={HomeScreen} exact />
         </Container>
       </main>

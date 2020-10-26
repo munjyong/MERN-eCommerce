@@ -21,3 +21,19 @@ h2 {
   font-size: 1.5rem;
   padding: 0.5rem 0;
 }
+
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: #78c2ad;
+  border-color: #78c2ad;
+}
+
+.page-link {
+  background-color: transparent;
+  color: black;
+  &:hover {
+    background-color: #78c2ad;
+    border-color: #78c2ad;
+  }
+}
