@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
 
+import { Link } from "react-router-dom";
+
 import { Row, Col } from "react-bootstrap";
 
 import Product from "../components/Product";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import Pagiante from "../components/Paginate";
+import Paginate from "../components/Paginate";
+import ProductCarousel from "../components/ProductCarousel";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import { listProducts } from "../actions/productActions";
-import Paginate from "../components/Paginate";
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
@@ -32,6 +34,14 @@ const HomeScreen = ({ match }) => {
 
   return (
     <>
+      {/* Display top products only if the user is not performing a search */}
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
+        <Link to="/" className="btn btn-light">
+          Go back
+        </Link>
+      )}
       <h1>Latest Products</h1>
       {/* Loading spinner */}
       {loading ? (

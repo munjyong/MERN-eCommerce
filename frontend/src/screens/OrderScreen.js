@@ -94,7 +94,7 @@ const OrderScreen = ({ match, history }) => {
         setSdkReady(true);
       }
     }
-  }, [successPay, order, orderId, dispatch, successDeliver]);
+  }, [successPay, order, orderId, dispatch, successDeliver, history, userInfo]);
 
   // Update payment status of order
   const successPaymentHandler = (paymentResult) => {
