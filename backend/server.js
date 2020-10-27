@@ -28,10 +28,6 @@ if (process.env.NODE_ENV === "development") {
 // Allows body data to be parsed as JSON
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("API is running...");
-});
-
 // Image uploads
 app.use("/api/upload", uploadRoutes);
 // Make uploads folder static so it can be access by the browser
@@ -49,6 +45,20 @@ app.use("/api/orders", orderRoutes);
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
+
+// Make build folder static and accessible by browser
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+  // Any route not directing to the API will be directed to inedx.html
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running...");
+  });
+}
 
 // Invalid route
 app.use(notFound);
