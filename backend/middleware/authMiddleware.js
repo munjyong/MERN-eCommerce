@@ -42,7 +42,7 @@ const admin = (req, res, next) => {
     next();
   } else {
     res.status(401);
-    throw new Error("Not authorized as an Admin");
+    throw new Error("Not authorized as an admin");
   }
 };
 
