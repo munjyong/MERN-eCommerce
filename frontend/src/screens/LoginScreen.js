@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Link } from "react-router-dom";
 
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col, Alert } from "react-bootstrap";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -71,6 +71,13 @@ const LoginScreen = ({ location, history }) => {
             Register
           </Link>
         </Col>
+      </Row>
+      <Row>
+        <Alert variant="light">
+          <h2>To access the admin panel:</h2>
+          Email - admin@example.com <br />
+          Password - password
+        </Alert>
       </Row>
     </FormContainer>
   );
