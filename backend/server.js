@@ -4,6 +4,7 @@ import connectDB from "./config/db.js";
 import colors from "colors";
 import path from "path";
 import morgan from "morgan";
+import stripe from "stripe";
 
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -19,6 +20,10 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
+const _stripe = stripe(
+  "sk_test_51HhNEPGQo4TRACXZ7APdsWRSeoPWlRMb445rvnCEM8Kv5sZuiiVpRt5hAdN1JQxy6ku2k1VsEY7gOY59NEY94lFJ00GRGcmj8m"
+);
 
 // Morgan
 if (process.env.NODE_ENV === "development") {
@@ -45,6 +50,24 @@ app.use("/api/orders", orderRoutes);
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
+
+// Stripe
+const calculateOrderAmount = (items) => {
+  return 1400;
+};
+
+app.post("/api/create-payment-intent", async (req, res) => {
+  const { items } = req.body;
+
+  const paymentIntent = await _stripe.paymentIntents.create({
+    amount: calculateOrderAmount(items),
+    currency: "gbp",
+  });
+
+  res.send({
+    clientSecret: paymentIntent.client_secret,
+  });
+});
 
 // Make build folder static and accessible by browser
 if (process.env.NODE_ENV === "production") {
