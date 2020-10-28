@@ -4,7 +4,7 @@ import connectDB from "./config/db.js";
 import colors from "colors";
 import path from "path";
 import morgan from "morgan";
-import stripe from "stripe";
+import Stripe from "stripe";
 
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -21,7 +21,7 @@ connectDB();
 
 const app = express();
 
-const _stripe = stripe(
+const stripe = new Stripe(
   "sk_test_51HhNEPGQo4TRACXZ7APdsWRSeoPWlRMb445rvnCEM8Kv5sZuiiVpRt5hAdN1JQxy6ku2k1VsEY7gOY59NEY94lFJ00GRGcmj8m"
 );
 
@@ -59,7 +59,7 @@ const calculateOrderAmount = (items) => {
 app.post("/api/create-payment-intent", async (req, res) => {
   const { items } = req.body;
 
-  const paymentIntent = await _stripe.paymentIntents.create({
+  const paymentIntent = await stripe.paymentIntents.create({
     amount: calculateOrderAmount(items),
     currency: "gbp",
   });
