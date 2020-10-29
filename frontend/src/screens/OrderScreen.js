@@ -4,12 +4,15 @@ import axios from "axios";
 
 import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import { PayPalButton } from "react-paypal-button-v2";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import StripeCheckoutForm from "../components/StripeCheckoutForm";
 
 import {
   getOrderDetails,
@@ -22,10 +25,16 @@ import {
   ORDER_DELIVER_RESET,
 } from "../constants/orderConstants";
 
+import "../Stripe.css";
+
 const OrderScreen = ({ match, history }) => {
   const orderId = match.params.id;
 
   const [sdkReady, setSdkReady] = useState(false);
+
+  const promise = loadStripe(
+    "pk_test_51HhNEPGQo4TRACXZFKVlAvdCVd7SwFeIPWRZLxsGOXCZxZOYvkbgdjr4kIc7hDiNOHjkqurtFjFxJ0Qb5KlrC2RU0042u7LVsL"
+  );
 
   const dispatch = useDispatch();
 
@@ -105,6 +114,10 @@ const OrderScreen = ({ match, history }) => {
 
   const deliverHandler = () => {
     dispatch(deliverOrder(order));
+  };
+
+  const stripeTokenHandler = (token, addresses) => {
+    console.log({ token, addresses });
   };
 
   return loading ? (
@@ -231,10 +244,15 @@ const OrderScreen = ({ match, history }) => {
                   {!sdkReady ? (
                     <Loader />
                   ) : (
-                    <PayPalButton
-                      amount={order.totalPrice}
-                      onSuccess={successPaymentHandler}
-                    ></PayPalButton>
+                    <>
+                      <Elements stripe={promise}>
+                        <StripeCheckoutForm />
+                      </Elements>
+                      <PayPalButton
+                        amount={order.totalPrice}
+                        onSuccess={successPaymentHandler}
+                      ></PayPalButton>
+                    </>
                   )}
                 </ListGroup.Item>
               )}
