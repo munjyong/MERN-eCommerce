@@ -32,6 +32,7 @@ const OrderScreen = ({ match, history }) => {
 
   const [sdkReady, setSdkReady] = useState(false);
 
+  // Stripe with API key
   const promise = loadStripe(
     "pk_test_51HhNEPGQo4TRACXZFKVlAvdCVd7SwFeIPWRZLxsGOXCZxZOYvkbgdjr4kIc7hDiNOHjkqurtFjFxJ0Qb5KlrC2RU0042u7LVsL"
   );
@@ -43,7 +44,6 @@ const OrderScreen = ({ match, history }) => {
 
   // Get value whether payment has been successful or not
   const orderPay = useSelector((state) => state.orderPay);
-  // Renamed with Pay suffix
   const { loading: loadingPay, success: successPay } = orderPay;
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -116,17 +116,13 @@ const OrderScreen = ({ match, history }) => {
     dispatch(deliverOrder(order));
   };
 
-  const stripeTokenHandler = (token, addresses) => {
-    console.log({ token, addresses });
-  };
-
   return loading ? (
     <Loader />
   ) : error ? (
     <Message variant="danger">{error}</Message>
   ) : (
     <>
-      <h1>Order {order._id}</h1>
+      <h1 style={{ wordWrap: "break-word" }}>Order {order._id}</h1>
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
@@ -245,9 +241,11 @@ const OrderScreen = ({ match, history }) => {
                     <Loader />
                   ) : (
                     <>
+                      {/* ===== Stripe ===== */}
                       <Elements stripe={promise}>
                         <StripeCheckoutForm />
                       </Elements>
+                      {/* ===== PayPal ===== */}
                       <PayPalButton
                         amount={order.totalPrice}
                         onSuccess={successPaymentHandler}
