@@ -53,7 +53,7 @@ app.get("/api/config/paypal", (req, res) =>
 
 // Stripe
 const calculateOrderAmount = (items) => {
-  return 1400;
+  return 1200;
 };
 
 app.post("/api/create-payment-intent", async (req, res) => {
@@ -61,11 +61,12 @@ app.post("/api/create-payment-intent", async (req, res) => {
 
   const paymentIntent = await stripe.paymentIntents.create({
     amount: calculateOrderAmount(items),
-    currency: "gbp",
+    currency: "usd",
   });
 
   res.send({
     clientSecret: paymentIntent.client_secret,
+    amount: paymentIntent.amount,
   });
 });
 
