@@ -239,18 +239,17 @@ const OrderScreen = ({ match, history }) => {
                   {loadingPay && <Loader />}
                   {!sdkReady ? (
                     <Loader />
+                  ) : order.paymentMethod === "Stripe" ? (
+                    // ===== Stripe =====
+                    <Elements stripe={promise}>
+                      <StripeCheckoutForm />
+                    </Elements>
                   ) : (
-                    <>
-                      {/* ===== Stripe ===== */}
-                      <Elements stripe={promise}>
-                        <StripeCheckoutForm />
-                      </Elements>
-                      {/* ===== PayPal ===== */}
-                      <PayPalButton
-                        amount={order.totalPrice}
-                        onSuccess={successPaymentHandler}
-                      ></PayPalButton>
-                    </>
+                    // ===== PayPal =====
+                    <PayPalButton
+                      amount={order.totalPrice}
+                      onSuccess={successPaymentHandler}
+                    ></PayPalButton>
                   )}
                 </ListGroup.Item>
               )}
